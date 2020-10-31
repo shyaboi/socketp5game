@@ -1,7 +1,9 @@
 var socket = io();
-
+const userID = socket.id
 // Where is the circle
 let x, y;
+let user = {userID, x,y}
+socket.on("userPos", data => {console.log(data)})
 
 window.addEventListener("keydown", function (e) {
   if (e.defaultPrevented) {
@@ -12,7 +14,6 @@ window.addEventListener("keydown", function (e) {
     x = x - 10;
     let userPos = {id:socket.id,x:x,y:y}
 socket.emit('userMove', userPos)
-console.log(sizeof(userPos))
   }
 
   if (keyDown === "d") {
@@ -56,5 +57,8 @@ function draw() {
   // Reset to the bottom
   if (y < 0) {
     y = height;
+  }
+  if (x < 0) {
+    x = width;
   }
 }
