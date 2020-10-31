@@ -2,29 +2,7 @@ var socket = io();
 const userID = socket.id
 // Where is the circle
 let x, y;
-let user = {userID, x,y};
 
-
-
-class Thing  {
-      constructor(id, pos){
-        this.id = id
-        this.pos = pos = {x,y}
-      }
-}
-
-
-console.log(user);
-
-socket.on("connection", ()=> {
-  user = {userID:data.id, x:data.x, y:data.y};
-});
-
-socket.on("userPos", data => {
-  // console.log(data.id);
-  user = {userID:data.id, x:data.x, y:data.y};
-  console.log(user)
-});
 
 window.addEventListener("keydown", function (e) {
   if (e.defaultPrevented) {
@@ -57,24 +35,18 @@ socket.emit('userMove', userPos)
     //   console.log('notrhin')
   }
 });
-
+let userPool = []
+var guy;
 function setup() {
-
- 
-
   createCanvas(1080, 720);
   // Starts in the middle
-  x = width / 2;
-  y = height / 2;
-  
-  setTimeout(() => {
-    console.log(socket.id)
-    user = {userID:socket.id, x:y, y:y};
-    socket.emit('userPos', user);
-    var newUser = new Thing(socket.id, {x:x,y:y})
-    console.log(newUser)
-  }, 8);
+  // x = width / 2;
+  // y = height / 2;
+  // userPool.push()
 
+   userPool.push(new User('1234', {x:50,y:77}))
+  //  userPool.push(new User('3263467', 33,33))
+console.log(userPool)
 }
 
 
@@ -82,13 +54,13 @@ function draw() {
   background(200);
 
   // Draw a circle
-  stroke(50);
-  fill(100);
 
-  ellipse(x, y, 24, 24);
- 
+//  doWork(x,y)
   // Moving up at a constant speed
 
+for (user of userPool){
+  user.render()
+}
   // Reset to the bottom
   if (y < 0) {
     y = height;
