@@ -2,8 +2,29 @@ var socket = io();
 const userID = socket.id
 // Where is the circle
 let x, y;
-let user = {userID, x,y}
-socket.on("userPos", data => {console.log(data)})
+let user = {userID, x,y};
+
+
+
+class Thing  {
+      constructor(id, pos){
+        this.id = id
+        this.pos = pos = {x,y}
+      }
+}
+
+
+console.log(user);
+
+socket.on("connection", ()=> {
+  user = {userID:data.id, x:data.x, y:data.y};
+});
+
+socket.on("userPos", data => {
+  // console.log(data.id);
+  user = {userID:data.id, x:data.x, y:data.y};
+  console.log(user)
+});
 
 window.addEventListener("keydown", function (e) {
   if (e.defaultPrevented) {
@@ -38,11 +59,24 @@ socket.emit('userMove', userPos)
 });
 
 function setup() {
+
+ 
+
   createCanvas(1080, 720);
   // Starts in the middle
   x = width / 2;
   y = height / 2;
+  
+  setTimeout(() => {
+    console.log(socket.id)
+    user = {userID:socket.id, x:y, y:y};
+    socket.emit('userPos', user);
+    var newUser = new Thing(socket.id, {x:x,y:y})
+    console.log(newUser)
+  }, 8);
+
 }
+
 
 function draw() {
   background(200);
@@ -50,8 +84,9 @@ function draw() {
   // Draw a circle
   stroke(50);
   fill(100);
-  ellipse(x, y, 24, 24);
 
+  ellipse(x, y, 24, 24);
+ 
   // Moving up at a constant speed
 
   // Reset to the bottom
