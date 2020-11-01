@@ -1,5 +1,5 @@
-var socket = io();
-const userID = socket.id;
+const ENDPOINT = "/";
+const socket = io(ENDPOINT);
 // Where is the circle
 let x, y;
 
