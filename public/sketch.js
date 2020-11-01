@@ -1,5 +1,5 @@
-const ENDPOINT = "/";
-const socket = io(ENDPOINT);
+var socket = io.connect('/');
+const userID = socket.id;
 // Where is the circle
 let x, y;
 
@@ -48,9 +48,9 @@ socket.on("userPos", (data) => {
 var objectFound = userPool[elementPos];
 
 let okX = data.pos.x + objectFound.pos.x
-console.log(okX)
+// console.log(okX)
 let okY = data.pos.y + objectFound.pos.y
-console.log(okY)
+// console.log(okY)
 userPool[elementPos].pos = {x:okX,y:okY}
 })
 
