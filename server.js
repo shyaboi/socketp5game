@@ -15,11 +15,13 @@ io.on("connection", (socket) => {
   console.log("a user connected");
 
   socket.on("connected", (user) => {
+    console.log(userPool)
     userPool.push(user)
-    // console.log(userPool);
-    socket.emit("userPool", user);
+for (const user of userPool) {
   socket.broadcast.emit("userPoolAdd", user);
-  socket.broadcast.emit("userPool", user);
+  socket.emit("userPoolAdd", user);
+  
+}
 
 
 })
