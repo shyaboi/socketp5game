@@ -10,25 +10,25 @@ window.addEventListener("keydown", function (e) {
   let keyDown = e.key;
   if (keyDown === "a") {
     x = x - 10;
-    let userPos = { id: socket.id, x: - 10, y: y };
+    let userPos = { id: socket.id, pos:{x:-10,y:0}};
     socket.emit("userMove", userPos);
   }
 
   if (keyDown === "d") {
     x = x + 10;
-    let userPos = { id: socket.id, x: + 10, y: y };
+    let userPos = { id: socket.id, pos:{x:10,y:0} };
     socket.emit("userMove", userPos);
   }
 
   if (keyDown === "w") {
     y = y - 10;
-    let userPos = { id: socket.id, x: x, y: -10 };
+    let userPos = { id: socket.id, pos:{x:0,y:-10} };
     socket.emit("userMove", userPos);
   }
 
   if (keyDown === "s") {
     y = y + 10;
-    let userPos = { id: socket.id, x: x, y: + 10 };
+    let userPos = { id: socket.id, pos:{x:0,y:10} };
     socket.emit("userMove", userPos);
   } else {
     //   console.log('notrhin')
@@ -41,10 +41,17 @@ let userPool = [];
 // });
 socket.on("userPos", (data) => {
   const uID = data.id
+// console.log(data)
+  // const filt = userPool.filter(user => user.id == uID)
+  var elementPos = userPool.map(function(x) {return x.id; }).indexOf(uID);
+var objectFound = userPool[elementPos];
 
-  const filt = userPool.filter(user => user.id == uID)
-
-  console.log(filt)
+let okX = data.pos.x + objectFound.pos.x
+console.log(okX)
+let okY = data.pos.y + objectFound.pos.y
+console.log(okY)
+userPool[elementPos].pos = {x:okX,y:okY}
+// console.log(objectFound.pos)
 })
 
 
