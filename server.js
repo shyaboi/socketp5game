@@ -9,27 +9,28 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "../public/index.html");
 });
-let userPool = []
+let userPool = [];
 
 io.on("connection", (socket) => {
   console.log("a user connected");
 
+
+
+
+
   socket.on("connected", (user) => {
-    console.log(userPool)
-    userPool.push(user)
-for (const user of userPool) {
-  socket.broadcast.emit("userPoolAdd", user);
-  socket.emit("userPoolAdd", user);
-  
-}
+    userPool.push(user);
+    socket.broadcast.emit("userPoolAdd", user);
+    for (const user of userPool) {
+      socket.emit("userPoolAdd", user);
+    }
+  });
 
-
-})
-
-  // socket.on("userMove", (data) => {
-  //   socket.emit("userPos", data);
-  //   socket.broadcast.emit("userPos", data);
-
+  socket.on("userMove", (data) => {
+    console.log(data)
+    socket.emit("userPos", data);
+    // socket.broadcast.emit("userPos", data);
+  })
   // });
 
   // socket.on("userPos", (data) => {
@@ -37,15 +38,20 @@ for (const user of userPool) {
   //   socket.broadcast.emit("userPos", data);
   // });
 
+  socket.on("disconnect", () => {
+    for (var i = 0; i < userPool.length; i++) {
+      if (userPool[i].id === socket.id) {
+        userPool.splice(i, 1);
+        i--;
+      }
+    }
+    socket.broadcast.emit("userPool", userPool);
+    socket.broadcast.emit("leaver", socket.id);
+    });
 
 
-  socket.on('disconnect', () => {
-    for( var i = 0; i < userPool.length; i++){ if ( userPool[i].id === socket.id) { userPool.splice(i, 1); i--; }}
-  socket.broadcast.emit("userPool", userPool);
-  socket.broadcast.emit("leaver", socket.id);
 
-    // console.log(userPool)
-});
+
 
 
 });
