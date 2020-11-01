@@ -3,6 +3,11 @@ const userID = socket.id;
 // Where is the circle
 let x, y;
 
+let rot = Math.floor(Math.random(1)*255)
+let gran = Math.floor(Math.random(1)*255)
+let blau = Math.floor(Math.random(1)*255)
+
+
 window.addEventListener("keydown", function (e) {
   if (e.defaultPrevented) {
     return; // Do nothing if the event was already processed
@@ -51,7 +56,10 @@ userPool[elementPos].pos = {x:okX,y:okY}
 
 
 socket.on("userPoolAdd", (data) => {
-  var newUser = new User(data.id, data.pos);
+rot = Math.floor(Math.random(1)*255)
+gran = Math.floor(Math.random(1)*255)
+ blau = Math.floor(Math.random(1)*255)
+  var newUser = new User(data.id, data.pos, rot, gran, blau);
   userPool.push(newUser);
 });
 
