@@ -95,7 +95,7 @@ function setup() {
     // userPool.push(newGuy);
     // console.log(newUser);
     socket.emit("connected", newGuy);
-  }, 20);
+  }, 2000);
 }
 
 // console.log(userPool)
