@@ -27,16 +27,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("userMove", (data) => {
-    console.log(data)
     socket.emit("userPos", data);
-    // socket.broadcast.emit("userPos", data);
+    socket.broadcast.emit("userPos", data);
   })
-  // });
 
-  // socket.on("userPos", (data) => {
-  //     // console.log(data)
-  //   socket.broadcast.emit("userPos", data);
-  // });
 
   socket.on("disconnect", () => {
     for (var i = 0; i < userPool.length; i++) {
