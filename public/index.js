@@ -45,12 +45,19 @@ socket.on("userPool", (data)=> {
 });
 
 socket.on("userPoolAdd", (data)=> {
-  console.log(data.id)
+  // console.log(data.id)
   var newUser = new User(data.id, data.pos)
   userPool.push(newUser)
-  console.log(userPool)
+  // console.log(userPool)
 })
 
+
+socket.on("leaver", (data)=> {
+  for( var i = 0; i < userPool.length; i++){ if ( userPool[i].id === data) { userPool.splice(i, 1); i--; }}
+  console.log(data)
+
+  // userPool = data
+});
 
 
 var randX = ()=> {

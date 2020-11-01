@@ -40,6 +40,7 @@ io.on("connection", (socket) => {
   socket.on('disconnect', () => {
     for( var i = 0; i < userPool.length; i++){ if ( userPool[i].id === socket.id) { userPool.splice(i, 1); i--; }}
   socket.broadcast.emit("userPool", userPool);
+  socket.broadcast.emit("leaver", socket.id);
 
     // console.log(userPool)
 });
