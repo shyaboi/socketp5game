@@ -15,22 +15,36 @@ io.on("connection", (socket) => {
   console.log("a user connected");
 
   socket.on("connected", (user) => {
-    // const newUser = JSON.parse(user)
-  console.log(user)
-  // userPool.push(user)
-  // console.log(userPool);
+    userPool.push(user)
+    // console.log(userPool);
+    socket.emit("userPool", user);
+  socket.broadcast.emit("userPoolAdd", user);
+  socket.broadcast.emit("userPool", user);
+
 
 })
-  socket.on("userMove", (data) => {
-    socket.emit("userPos", data);
-    socket.broadcast.emit("userPos", data);
 
-  });
+  // socket.on("userMove", (data) => {
+  //   socket.emit("userPos", data);
+  //   socket.broadcast.emit("userPos", data);
 
-  socket.on("userPos", (data) => {
-      // console.log(data)
-    socket.broadcast.emit("userPos", data);
-  });
+  // });
+
+  // socket.on("userPos", (data) => {
+  //     // console.log(data)
+  //   socket.broadcast.emit("userPos", data);
+  // });
+
+
+
+  socket.on('disconnect', () => {
+    for( var i = 0; i < userPool.length; i++){ if ( userPool[i].id === socket.id) { userPool.splice(i, 1); i--; }}
+  socket.broadcast.emit("userPool", userPool);
+
+    // console.log(userPool)
+});
+
+
 });
 
 http.listen(PORT, () => {

@@ -36,27 +36,52 @@ socket.emit('userMove', userPos)
   }
 });
 let userPool = []
-var guy;
-function setup() {
+var newGuy;
+
+socket.on("userPool", (data)=> {
+  // console.log(data)
+
+  // userPool = data
+});
+
+socket.on("userPoolAdd", (data)=> {
+  console.log(data.id)
+  var newUser = new User(data.id, data.pos)
+  userPool.push(newUser)
+  console.log(userPool)
+})
+
+
+
+var randX = ()=> {
+  var num = Math.floor(Math.random(1)*width)
+  return num
+}
+var randY = ()=> {
+  var num = Math.floor(Math.random(1)*height)
+  return num
+}
+
+ function setup() {
   createCanvas(1080, 720);
   // Starts in the middle
   // x = width / 2;
   // y = height / 2;
-  // userPool.push()
+  console.log(randY())
 
-   userPool.push(new User('1234', {x:50,y:77}))
-  //  userPool.push(new User('3263467', 33,33))
-console.log(userPool)
+  setTimeout(() => {
+    newGuy =  new User(socket.id, {x:randX(),y:randY()});
+    userPool.push(newGuy);
+    // console.log(newUser);
+    socket.emit('connected', newGuy);
+    
+  }, 50);
+
 }
 
-
+// console.log(userPool)
 function draw() {
   background(200);
-
-  // Draw a circle
-
-//  doWork(x,y)
-  // Moving up at a constant speed
 
 for (user of userPool){
   user.render()
